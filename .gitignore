@@ -6,7 +6,7 @@ project/peft-dialogue-summary-training-*
 project/runs
 LLM *
 test_*
-.DS_Store
+*.DS_Store
 .gitignore
 
 
