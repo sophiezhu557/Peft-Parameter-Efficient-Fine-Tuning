@@ -1,0 +1,13 @@
+LLM_Course*
+Untitled.key
+
+project/.venv
+project/peft-dialogue-summary-training-*
+project/runs
+LLM *
+test_*
+.DS_Store
+.gitignore
+
+
+
