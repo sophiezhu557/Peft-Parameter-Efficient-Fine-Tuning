@@ -2,8 +2,8 @@ LLM_Course*
 Untitled.key
 
 project/.venv
-project/peft-dialogue-summary-training-*
-project/runs
+project/runs/peft-dialogue-summary-training-*
+project/results
 LLM *
 test_*
 *.DS_Store
