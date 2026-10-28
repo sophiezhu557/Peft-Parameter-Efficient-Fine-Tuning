@@ -129,7 +129,7 @@ def peft_adaptor(store_model_path
     peft_model = get_peft_model(base_model, lora_config)
 
     training_args = SFTConfig(
-        output_dir=f'./peft-dialogue-summary-training-{str(int(time.time()))}',
+        output_dir=f'./runs/peft-dialogue-summary-training-{str(int(time.time()))}',
         learning_rate=lr,
         num_train_epochs=epoch,
         max_steps=steps,
@@ -279,7 +279,7 @@ if __name__ == "__main__":
     arguments = arg()
 
     model_name = "Qwen/Qwen2.5-1.5B-Instruct"  #Qwen/Qwen3.5-2B"
-    peft_path = "./peft-dialogue-summary-checkpoint-local-qwen2.5"
+    peft_path = "./runs/peft-dialogue-summary-checkpoint-local-qwen2.5"
     target_modules = ["q_proj", "v_proj"]
     lr = 1e-4
 
@@ -293,7 +293,7 @@ if __name__ == "__main__":
         "test": dataset["test"].filter(
             lambda example, index: index % 50 == 0, with_indices=True),
     })
-    run_dir = f"./runs/{time.strftime('%Y%m%d-%H%M%S')}"
+    run_dir = f"./results/{time.strftime('%Y%m%d-%H%M%S')}"
     os.makedirs(run_dir, exist_ok=True)
 
     processerd_dataset = dataset.map(

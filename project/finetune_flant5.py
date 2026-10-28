@@ -136,7 +136,7 @@ def peft_adaptor(store_model_path
 
     # 2. train
     training_args = TrainingArguments(
-        output_dir=f'./peft-dialogue-summary-training-{str(int(time.time()))}',
+        output_dir=f'./runs/peft-dialogue-summary-training-{str(int(time.time()))}',
         auto_find_batch_size=True,
         learning_rate=lr,
         num_train_epochs=epoch,
@@ -330,7 +330,7 @@ if __name__ == "__main__":
     })
 
     # load tokenizer
-    model_name =  'qwen3.5:4B' #'google/flan-t5-base'
+    model_name = 'google/flan-t5-base'
     tokenizer = AutoTokenizer.from_pretrained(model_name)
 
     # Preprocess dataset
@@ -341,14 +341,14 @@ if __name__ == "__main__":
     tokenized_datasets = tokenized_datasets.remove_columns(['id', 'topic', 'dialogue', 'summary',])
     print(tokenized_datasets.shape)
 
-    run_dir = f"./runs/{time.strftime('%Y%m%d-%H%M%S')}"
+    run_dir = f"./results/{time.strftime('%Y%m%d-%H%M%S')}"
     os.makedirs(run_dir, exist_ok=True)
 
     # peft - lora
     if not arguments.full_fine_tune:
-        peft_path = "./peft-dialogue-summary-checkpoint-local" 
+        peft_path = "./results/peft-dialogue-summary-checkpoint-local" 
         # peft_path = "./peft-dialogue-summary-training-1790834018/checkpoint-126"
-        instruct_path = "./flan-dialogue-summary-checkpoint-aws"
+        instruct_path = "./results/flan-dialogue-summary-checkpoint-aws"
 
         base_model = AutoModelForSeq2SeqLM.from_pretrained(model_name, dtype=torch.float16)
 
@@ -383,10 +383,10 @@ if __name__ == "__main__":
 
     else: # full fine tune the model
         base_model = AutoModelForSeq2SeqLM.from_pretrained(model_name, dtype=torch.float32)
-        peft_path = "./peft-dialogue-summary-checkpoint-local"
+        peft_path = "./runs/peft-dialogue-summary-checkpoint-local"
         
         if arguments.local_full_tune:
-            instruct_path = "./flan-dialogue-summary-checkpoint-local"
+            instruct_path = "./runs/flan-dialogue-summary-checkpoint-local"
             full_fine_tune(store_full_model_path = instruct_path
                 ,base_model=base_model
                 ,tokenized_train_data=tokenized_datasets["train"]
@@ -397,7 +397,7 @@ if __name__ == "__main__":
                 ,steps=arguments.steps)
 
         else:
-            instruct_path = "./flan-dialogue-summary-checkpoint-aws"
+            instruct_path = "./runs/flan-dialogue-summary-checkpoint-aws"
 
     run_metadata = build_run_metadata(arguments)
 
