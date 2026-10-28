@@ -198,46 +198,6 @@ def evaluate_rouge(model_name
     instruct_model = AutoModelForSeq2SeqLM.from_pretrained(pretrained_instruct_model_path, 
                                                            dtype=torch.float16).to(device)
 
-    # completion_path = os.path.join(output_dir, "test_completion.jsonl")
-    # with open(completion_path, "w", encoding="utf-8") as f:
-
-        # for index in range(dataset["test"].shape[0]):
-        #     print(f"Evaluating {index + 1}/{dataset['test'].shape[0]}")
-        #     prompt = f"""
-        #     Summarize the following conversation.
-
-        #     {dataset["test"][index]["dialogue"]}
-
-        #     Summary: """
-
-        #     input_ids = tokenizer(prompt, return_tensors="pt").input_ids.to(device)
-
-        #     base_model_outputs = base_model.generate(input_ids=input_ids, generation_config=GenerationConfig(max_new_tokens=200, num_beams=1))
-        #     base_model_text_output = tokenizer.decode(base_model_outputs[0], skip_special_tokens=True)
-        #     base_model_summaries.append(base_model_text_output)
-
-        #     instruct_model_outputs = instruct_model.generate(input_ids=input_ids, generation_config=GenerationConfig(max_new_tokens=200, num_beams=1))
-        #     instruct_model_text_output = tokenizer.decode(instruct_model_outputs[0], skip_special_tokens=True)
-        #     instruct_model_summaries.append(instruct_model_text_output)
-
-        #     peft_model_outputs = peftuned_model.generate(input_ids=input_ids, generation_config=GenerationConfig(max_new_tokens=200, num_beams=1))
-        #     peft_model_text_output = tokenizer.decode(peft_model_outputs[0], skip_special_tokens=True)
-        #     peft_model_summaries.append(peft_model_text_output)
-
-        #     print('###', index)
-        #     print('/nORIGINAL MODEL:',base_model_text_output)
-        #     print('/nPEFT MODEL:', peft_model_text_output)
-        #     print('/nINSTRUCT MODEL:', instruct_model_text_output)
-
-        #     output =  {
-        #         'BASELINE HUMAN SUMMARY':dataset["test"][index]["summary"],
-        #         'ORIGINAL MODEL':base_model_text_output,
-        #         'PEFT MODEL': peft_model_text_output,
-        #         'INSTRUCT MODEL': instruct_model_text_output
-        #     }
-            
-            # f.write(json.dumps(output, ensure_ascii=False) + "\n")
-    
     test_data = dataset["test"]
     n = test_data.shape[0]
     prompts = [
